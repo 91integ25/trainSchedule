@@ -42,24 +42,17 @@ $(document).ready(function () {
 		var trainName = $("<td>").html(childSnapshot.val().train);
 		var destination = $("<td>").html(childSnapshot.val().destination);
 		var frequency = $("<td>").html(childSnapshot.val().frequency);
-		// var minutesNow = parseInt(moment().format("HH")) * 60 + parseInt(moment().format("mm"));
-		// var nextArrival = Math.ceil(minutesNow /parseInt(childSnapshot.val().frequency)) * parseInt(childSnapshot.val().frequency);
-		// var nextArrivalHours = Math.floor(nextArrival/60);
-	 //    var nextArrivalMin = (nextArrival % 60 );
-		// var nextArrivalTime = $("<td>").html(nextArrivalHours + ":" + nextArrivalMin);
-		// var minutesAway = $("<td>").html(nextArrival - minutesNow);
-	var firstTrain = moment(childSnapshot.val().firstTrain, "hh:mm").subtract(1, "years");
 
-	var currentTime = moment();
-	var difference = moment().diff(firstTrain, "mm");
+	var firstTrain = moment(childSnapshot.val().firstTrain,"hh:mm");
+	//difference of time between the firstrain and now
+	var difference = moment().diff(firstTrain);
 	var frequency = childSnapshot.val().frequency;
+
 	
 	console.log(difference);
 	console.log(firstTrain);	
 
-			// var timeNow = moment(childSnapshot.val().firstTrain).hour();
-			// console.log(timeNow);
-
+	
 		
 
 		
