@@ -23,7 +23,7 @@ $(document).ready(function () {
 		var destination = $("#destination").val().trim();
 		var firstTrain = $("#firstTrain").val().trim();
 		var frequency = $("#frequency").val().trim();
-
+		
 		fbdata.ref().push({
 			train: trainName,
 			destination: destination,
@@ -34,6 +34,11 @@ $(document).ready(function () {
 
 		}); // end of push to firebase
 
+	$("#frequency").empty();
+	$("#firstTrain").empty();
+	$("#destination").empty();
+	$("#train").empty();
+
 	});// end of submit info function
 	
 	fbdata.ref().on("child_added", function (childSnapshot) {
@@ -41,17 +46,24 @@ $(document).ready(function () {
 		var tableRow = $("<tr>");
 		var trainName = $("<td>").html(childSnapshot.val().train);
 		var destination = $("<td>").html(childSnapshot.val().destination);
-		var frequency = $("<td>").html(childSnapshot.val().frequency);
+		var frequencyTime =$("<td>").html(childSnapshot.val().frequency);
+		var firstTrainTime = childSnapshot.val().firstTrain;
+		var firstTrainConverted = moment(firstTrainTime, "hh:mm").subtract(1, "years");
+        var currentTime = moment();
+        var diffTime = moment().diff(moment(firstTrainConverted), "minutes");
+        var tRemainder = diffTime % frequency;
+        var minutesTillTrain = frequency - tRemainder;
+        var nextTrain = moment().add(minutesTillTrain, "minutes");
+        var nextTrainFormatted = moment(nextTrain).format("hh:mm");
+		console.log(frequency);
 
-	var firstTrain = moment(childSnapshot.val().firstTrain,"hh:mm");
-	//difference of time between the firstrain and now
-	var difference = moment().diff(firstTrain);
-	var frequency = childSnapshot.val().frequency;
+		
 
 	
-	console.log(difference);
-	console.log(firstTrain);	
+	
 
+
+	
 	
 		
 
@@ -64,9 +76,8 @@ $(document).ready(function () {
 		// .append(tableRow)
 		// .append(trainName)
 		// .append(destination)
-		// .append(frequency)
-		// .append(nextArrivalTime)
-		// .append(minutesAway );
+		// .append(frequencyTable);
+		
 		
 		
 		
