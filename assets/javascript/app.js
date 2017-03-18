@@ -24,11 +24,20 @@ $(document).ready(function () {
 		var firstTrain = $("#firstTrain").val().trim();
 		var frequency = $("#frequency").val().trim();
 		
+		var firstTrainConverted = moment(firstTrain, "hh:mm").subtract(1, "years");
+        var diffTime = moment().diff(moment(firstTrainConverted), "minutes");
+        var tRemainder = diffTime % frequency;
+        var minutesTillTrain = frequency - tRemainder;
+        var nextTrain = moment().add(minutesTillTrain, "minutes");
+        var nextTrainFormatted = moment(nextTrain).format("hh:mm");
+		
 		fbdata.ref().push({
 			train: trainName,
 			destination: destination,
 			firstTrain: firstTrain,
 			frequency: frequency,
+			nextTrainFormatted:nextTrainFormatted,
+			minutesTillTrain:minutesTillTrain,
 			dateAdded: firebase.database.ServerValue.TIMESTAMP
 
 
@@ -46,17 +55,17 @@ $(document).ready(function () {
 		var tableRow = $("<tr>");
 		var trainName = $("<td>").html(childSnapshot.val().train);
 		var destination = $("<td>").html(childSnapshot.val().destination);
-		var frequencyTime =$("<td>").html(childSnapshot.val().frequency);
-		var firstTrainTime = childSnapshot.val().firstTrain;
-		var firstTrainConverted = moment(firstTrainTime, "hh:mm").subtract(1, "years");
-        var currentTime = moment();
-        var diffTime = moment().diff(moment(firstTrainConverted), "minutes");
-        var tRemainder = diffTime % frequency;
-        var minutesTillTrain = frequency - tRemainder;
-        var nextTrain = moment().add(minutesTillTrain, "minutes");
-        var nextTrainFormatted = moment(nextTrain).format("hh:mm");
-		console.log(frequency);
-
+		var frequencyAppend = $("<td>").html(childSnapshot.val().frequency);
+		var nextTrainAppend = $("<td>").html(childSnapshot.val().nextTrainFormatted);
+		var minutesTillAppend = $("<td>").html(childSnapshot.val().minutesTillTrain);
+		
+		
+	$("#tableStart")
+	.append(trainName)
+	.append(destination)
+	.append(frequencyAppend)
+	.append(nextTrainAppend)
+	.append(minutesTillAppend);
 		
 
 	
