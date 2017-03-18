@@ -61,6 +61,7 @@ $(document).ready(function () {
 		
 		
 	$("#tableStart")
+	.append(tableRow)
 	.append(trainName)
 	.append(destination)
 	.append(frequencyAppend)
