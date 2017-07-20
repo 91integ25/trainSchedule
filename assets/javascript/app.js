@@ -25,8 +25,8 @@ $(document).ready(function () {
 		var frequency = $("#frequency").val().trim();
 		
 		var firstTrainConverted = moment(firstTrain, "hh:mm").subtract(1, "years");
-        var diffTime = moment().diff(moment(firstTrainConverted), "minutes");
-        var tRemainder = diffTime % frequency;
+        var difference = moment().diff(moment(firstTrainConverted), "minutes");
+        var tRemainder = difference % frequency;
         var minutesTillTrain = frequency - tRemainder;
         var nextTrain = moment().add(minutesTillTrain, "minutes");
         var nextTrainFormatted = moment(nextTrain).format("hh:mm");
